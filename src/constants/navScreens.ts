@@ -1,0 +1,9 @@
+export const CART_SCREEN_NAME = "CartScreen";
+export const PRODUCT_DETAIL_SCREEN_NAME = "ProductDetailScreen";
+export const PRODUCT_OVERVIEW_SCREEN_NAME = "ProductOverviewScreen";
+export const PRODUCTS_NAVIGATOR_NAME = "ProductsNavigator";
+export const ORDERS_STACK_NAVIGATOR_NAME = "OrdersStackNavigator";
+export const ORDERS_SCREEN_NAME = "OrdersScreen";
+export const ADMIN_NAVIGATOR_NAME = "AdminStackNavigator";
+export const USER_PRODUCTS_SCREEN_NAME = "UserProductsScreen";
+export const EDIT_PRODUCT_SCREEN_NAME = "EditProductSCreen";
