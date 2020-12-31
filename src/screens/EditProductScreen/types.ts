@@ -13,3 +13,33 @@ export type EditProductScreenNavigationProp = NavigationProp<
 >;
 
 export type SubmitHandlerType = () => void;
+
+export interface InputValuesType {
+  title: string;
+  imageUrl: string;
+  description: string;
+  price: string;
+}
+
+export interface InputValiditiesType {
+  [key: string]: boolean;
+}
+
+export interface FormReducerStateType {
+  inputValues: InputValuesType;
+  inputValidities: InputValiditiesType;
+  formIsValid: boolean;
+}
+
+export type InputChangeHandlerType = (
+  inputIdentifier: string,
+  inputValue: string,
+  inputValidity: boolean
+) => void;
+
+export interface FormReducerAction {
+  type: string;
+  value: string;
+  isValid: boolean;
+  input: string;
+}
