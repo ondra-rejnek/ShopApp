@@ -1,6 +1,7 @@
 import { CartObject, Order, OrderData, Product } from "../../types/product";
 
 interface productData {
+  id: string;
   title: string;
   description: string;
   imageUrl: string;
@@ -23,44 +24,11 @@ export interface CartReducerState {
   totalAmount: number;
 }
 
-export interface AddToCartAction {
-  type: string;
-  product: Product;
-}
-
-export interface RemoveFromCartAction {
-  type: string;
-  pid: string;
-}
-
-export interface AddOrderAction {
-  type: string;
-  orderData: OrderData;
-}
-
-export interface DeleteProductAction {
-  type: string;
-  pid: string;
-}
-
-export interface CreateProductAction {
-  type: string;
-  productData: productData;
-}
-
-export interface UpdateProductAction {
-  type: string;
-  pid: string;
-  productData: updatingProductData;
-}
-
 export interface OrderReducerState {
   orders: Order[];
 }
 
-export type ActionType = AddToCartAction &
-  RemoveFromCartAction &
-  AddOrderAction &
-  DeleteProductAction &
-  CreateProductAction &
-  UpdateProductAction;
+export interface ActionType {
+  type: string;
+  payload?: any;
+}

@@ -6,6 +6,7 @@ interface IStyles {
   label: TextStyle;
   input: TextStyle;
   form: ViewStyle;
+  loader: ViewStyle;
 }
 
 const styles = StyleSheet.create<IStyles>({
@@ -24,6 +25,11 @@ const styles = StyleSheet.create<IStyles>({
     paddingVertical: 5,
     borderBottomColor: "#ccc",
     borderBottomWidth: 1,
+  },
+  loader: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

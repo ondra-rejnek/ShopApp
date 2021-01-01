@@ -1,11 +1,11 @@
 import React from "react";
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
 import { Provider } from "react-redux";
 import { ReactNode } from "react";
 import { rootReducer } from "./rootReducer";
-import { composeWithDevTools } from "redux-devtools-extension";
+import ReduxThunk from "redux-thunk";
 
-const store = createStore(rootReducer, composeWithDevTools());
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 interface Props {
   children: ReactNode;

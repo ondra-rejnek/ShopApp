@@ -1,11 +1,28 @@
-import React from "react";
-import { FlatList, Text } from "react-native";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { FlatList } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import OrderItem from "../../components/OrderItem";
 import { RootState } from "../../types/rootState";
+import * as actions from "../../stores/ProductsStore/actions";
+import Loading from "../../components/Loading";
 
 const OrdersScreen: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const { orders } = useSelector((state: RootState) => state.orders);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setIsLoading(true);
+    dispatch(actions.fetchOrders()).then(() => {
+      setIsLoading(false);
+    });
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <FlatList

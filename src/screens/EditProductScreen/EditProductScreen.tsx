@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { View, Alert, KeyboardAvoidingView } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import styles from "./styles";
@@ -12,11 +12,11 @@ import {
   FormReducerAction,
   FormReducerStateType,
   InputChangeHandlerType,
-  SubmitHandlerType,
 } from "./types";
 import * as actions from "../../stores/ProductsStore/actions";
 import { USER_PRODUCTS_SCREEN_NAME } from "../../constants/navScreens";
 import Input from "../../components/Input";
+import Loading from "../../components/Loading";
 
 interface Props {
   route: EditProductScreenRouteProp;
@@ -52,6 +52,9 @@ const formReducer = (
 };
 
 const EditProductScreen: React.FC<Props> = ({ route, navigation }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const prodId = route.params.product;
   const editedProduct = useSelector((state: RootState) =>
     state.products.userProducts.find((prod) => prod.id === prodId)
@@ -75,33 +78,47 @@ const EditProductScreen: React.FC<Props> = ({ route, navigation }) => {
 
   const dispatch = useDispatch();
 
-  const submitHandler: SubmitHandlerType = useCallback(() => {
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
+
+  const submitHandler: any = useCallback(async () => {
     if (!formState.formIsValid) {
       Alert.alert("Wrong input!", "Please check the errors in the form!", [
         { text: "Okay" },
       ]);
       return;
     }
-    if (editedProduct) {
-      dispatch(
-        actions.updateProduct(
-          prodId,
-          formState.inputValues.title,
-          formState.inputValues.description,
-          formState.inputValues.imageUrl
-        )
-      );
-    } else {
-      dispatch(
-        actions.createProduct(
-          formState.inputValues.title,
-          formState.inputValues.description,
-          formState.inputValues.imageUrl,
-          +formState.inputValues.price
-        )
-      );
+    setIsLoading(true);
+    setError(null);
+    try {
+      if (editedProduct) {
+        await dispatch(
+          actions.updateProduct(
+            prodId,
+            formState.inputValues.title,
+            formState.inputValues.description,
+            formState.inputValues.imageUrl
+          )
+        );
+      } else {
+        await dispatch(
+          actions.createProduct(
+            formState.inputValues.title,
+            formState.inputValues.description,
+            formState.inputValues.imageUrl,
+            +formState.inputValues.price
+          )
+        );
+      }
+      navigation.navigate(USER_PRODUCTS_SCREEN_NAME);
+    } catch (error) {
+      setError(error.message);
     }
-    navigation.navigate(USER_PRODUCTS_SCREEN_NAME);
+
+    setIsLoading(false);
   }, [dispatch, prodId, formState]);
 
   navigation.setOptions({
@@ -129,6 +146,10 @@ const EditProductScreen: React.FC<Props> = ({ route, navigation }) => {
     },
     [dispatchFormState]
   );
+
+  if (isLoading) {
+    <Loading />;
+  }
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>

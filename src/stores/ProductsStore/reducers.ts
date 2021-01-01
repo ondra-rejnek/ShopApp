@@ -5,6 +5,8 @@ import {
   CREATE_PRODUCT,
   DELETE_PRODUCT,
   REMOVE_FROM_CART,
+  SET_ORDERS,
+  SET_PRODUCTS,
   UPDATE_PRODUCT,
 } from "./actionTypes";
 import {
@@ -26,14 +28,22 @@ export const productsReducer = (
   action: ActionType
 ): ProductsReducerState => {
   switch (action.type) {
+    case SET_PRODUCTS:
+      return {
+        availableProducts: action.payload.products,
+        userProducts: action.payload.products.filter(
+          (product: Product) => product.id !== action.payload.pid
+        ),
+      };
+
     case CREATE_PRODUCT:
       const newProduct: Product = {
-        id: new Date().toString(),
+        id: action.payload.productData.id,
         ownerId: "u1",
-        title: action.productData.title,
-        imageUrl: action.productData.imageUrl,
-        description: action.productData.description,
-        price: action.productData.price,
+        title: action.payload.productData.title,
+        imageUrl: action.payload.productData.imageUrl,
+        description: action.payload.productData.description,
+        price: action.payload.productData.price,
       };
       return {
         ...state,
@@ -43,20 +53,20 @@ export const productsReducer = (
 
     case UPDATE_PRODUCT:
       const productIndex = state.userProducts.findIndex(
-        (prod) => prod.id === action.pid
+        (prod) => prod.id === action.payload.pid
       );
       const updatedProduct: Product = {
-        id: action.pid,
+        id: action.payload.pid,
         ownerId: state.userProducts[productIndex].ownerId,
-        title: action.productData.title,
-        imageUrl: action.productData.imageUrl,
-        description: action.productData.description,
+        title: action.payload.productData.title,
+        imageUrl: action.payload.productData.imageUrl,
+        description: action.payload.productData.description,
         price: state.userProducts[productIndex].price,
       };
       const updatedUserProducts = [...state.userProducts];
       updatedUserProducts[productIndex] = updatedProduct;
       const availableProductsIndex = state.availableProducts.findIndex(
-        (prod) => prod.id === action.pid
+        (prod) => prod.id === action.payload.pid
       );
       const updatedAvailableProducts = [...state.availableProducts];
       updatedAvailableProducts[availableProductsIndex] = updatedProduct;
@@ -70,10 +80,10 @@ export const productsReducer = (
       return {
         ...state,
         userProducts: state.userProducts.filter(
-          (product) => product.id !== action.pid
+          (product) => product.id !== action.payload.pid
         ),
         availableProducts: state.availableProducts.filter(
-          (product) => product.id !== action.pid
+          (product) => product.id !== action.payload.pid
         ),
       };
   }
@@ -87,7 +97,7 @@ export const cartReducer = (
 ): CartReducerState => {
   switch (action.type) {
     case ADD_TO_CART:
-      const addedProduct = action.product;
+      const addedProduct = action.payload.product;
       const prodPrice = addedProduct.price;
       const prodTitle = addedProduct.title;
       let updatedOrNewCartItem: CartItem;
@@ -116,7 +126,7 @@ export const cartReducer = (
       }
 
     case REMOVE_FROM_CART:
-      const selectedCartItem = state.items[action.pid];
+      const selectedCartItem = state.items[action.payload.pid];
       const currentQty = selectedCartItem.quantity;
       let updatedCartItems: CartObject;
       if (currentQty > 1) {
@@ -126,10 +136,13 @@ export const cartReducer = (
           productTitle: selectedCartItem.productTitle,
           sum: selectedCartItem.sum - selectedCartItem.productPrice,
         };
-        updatedCartItems = { ...state.items, [action.pid]: updatedCartItem };
+        updatedCartItems = {
+          ...state.items,
+          [action.payload.pid]: updatedCartItem,
+        };
       } else {
         updatedCartItems = { ...state.items };
-        delete updatedCartItems[action.pid];
+        delete updatedCartItems[action.payload.pid];
       }
       return {
         ...state,
@@ -141,12 +154,12 @@ export const cartReducer = (
       return initialCartState;
 
     case DELETE_PRODUCT:
-      if (!state.items[action.pid]) {
+      if (!state.items[action.payload.pid]) {
         return state;
       }
       const updatedItems = { ...state.items };
-      const itemTotal = state.items[action.pid].sum;
-      delete updatedItems[action.pid];
+      const itemTotal = state.items[action.payload.pid].sum;
+      delete updatedItems[action.payload.pid];
       return {
         ...state,
         items: updatedItems,
@@ -161,16 +174,22 @@ export const ordersReducer = (
   action: ActionType
 ): OrderReducerState => {
   switch (action.type) {
-    case ADD_ORDER:
-      const actualDate = new Date();
-      const newOrder: Order = {
-        id: actualDate.toString(),
-        items: action.orderData.items,
-        amount: action.orderData.amount,
-        date: actualDate,
-        readableDate: moment(actualDate).format("MMMM Do YYYY, hh:mm"),
+    case SET_ORDERS:
+      return {
+        orders: action.payload.orders,
       };
-      console.log(action.orderData.amount);
+
+    case ADD_ORDER:
+      const newOrder: Order = {
+        id: action.payload.orderData.id,
+        items: action.payload.orderData.items,
+        amount: action.payload.orderData.amount,
+        date: action.payload.orderData.date,
+        readableDate: moment(action.payload.orderData.date).format(
+          "MMMM Do YYYY, hh:mm"
+        ),
+      };
+      console.log(action.payload.orderData.amount);
       return {
         ...state,
         orders: state.orders.concat(newOrder),
