@@ -37,7 +37,6 @@ const UserProductsScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const editProductHandler: EditProductHandlerType = (id) => {
-    console.log(id);
     navigation.navigate(EDIT_PRODUCT_SCREEN_NAME, {
       product: id,
     });

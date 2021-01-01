@@ -104,12 +104,14 @@ export const createProduct = (
 
     dispatch({
       type: CREATE_PRODUCT,
-      productData: {
-        id: resData.name,
-        title,
-        description,
-        imageUrl,
-        price,
+      payload: {
+        productData: {
+          id: resData.name,
+          title: title,
+          description: description,
+          imageUrl: imageUrl,
+          price: price,
+        },
       },
     });
   };
@@ -146,9 +148,9 @@ export const updateProduct = (
       payload: {
         pid: id,
         productData: {
-          title,
-          description,
-          imageUrl,
+          title: title,
+          description: description,
+          imageUrl: imageUrl,
         },
       },
     });

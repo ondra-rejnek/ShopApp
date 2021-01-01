@@ -34,8 +34,8 @@ const OrderNavigator: React.FC = () => {
           component={ProductsNavigator}
           options={{
             title: "Products",
-            drawerIcon: (drawerConfig) => (
-              <Ionicons name="md-cart" size={23} color={drawerConfig.color} />
+            drawerIcon: (props) => (
+              <Ionicons name="md-cart" size={23} color={props.color} />
             ),
           }}
         />
@@ -44,8 +44,8 @@ const OrderNavigator: React.FC = () => {
           component={OrdersStackNavigator}
           options={{
             title: "Orders",
-            drawerIcon: (drawerConfig) => (
-              <Ionicons name="md-list" size={23} color={drawerConfig.color} />
+            drawerIcon: (props) => (
+              <Ionicons name="md-list" size={23} color={props.color} />
             ),
           }}
         />
@@ -54,8 +54,8 @@ const OrderNavigator: React.FC = () => {
           component={AdminNavigator}
           options={{
             title: "Admin",
-            drawerIcon: (drawerConfig) => (
-              <Ionicons name="md-create" size={23} color={drawerConfig.color} />
+            drawerIcon: (props) => (
+              <Ionicons name="md-create" size={23} color={props.color} />
             ),
           }}
         />

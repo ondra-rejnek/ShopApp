@@ -53,9 +53,10 @@ const formReducer = (
 
 const EditProductScreen: React.FC<Props> = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const prodId = route.params.product;
+
   const editedProduct = useSelector((state: RootState) =>
     state.products.userProducts.find((prod) => prod.id === prodId)
   );
@@ -121,19 +122,19 @@ const EditProductScreen: React.FC<Props> = ({ route, navigation }) => {
     setIsLoading(false);
   }, [dispatch, prodId, formState]);
 
-  navigation.setOptions({
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item
-          title="Save"
-          iconName="md-checkmark"
-          onPress={() => {
-            submitHandler();
-          }}
-        ></Item>
-      </HeaderButtons>
-    ),
-  });
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item
+            title="Save"
+            iconName="md-checkmark"
+            onPress={submitHandler}
+          ></Item>
+        </HeaderButtons>
+      ),
+    });
+  }, [submitHandler]);
 
   const inputChangeHandler: InputChangeHandlerType = useCallback(
     (inputIdentifier, inputValue, inputValidity) => {

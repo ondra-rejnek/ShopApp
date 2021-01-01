@@ -14,7 +14,7 @@ interface Props {
   navigation: ProductOverviewScreenProp;
 }
 
-const ProductsOverviewScreen: React.FC<Props> = ({ navigation }) => {
+export const ProductsOverviewScreen: React.FC<Props> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState();
@@ -38,9 +38,9 @@ const ProductsOverviewScreen: React.FC<Props> = ({ navigation }) => {
   }, [dispatch, setIsLoading, setError]);
 
   useEffect(() => {
-    navigation.addListener("focus", () => loadProducts());
+    const unsubscribe = navigation.addListener("focus", loadProducts);
     return () => {
-      navigation.removeListener;
+      unsubscribe();
     };
   }, [loadProducts]);
 

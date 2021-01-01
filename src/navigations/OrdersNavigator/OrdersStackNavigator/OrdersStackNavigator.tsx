@@ -1,9 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import OrdersScreen from "../../../screens/OrdersScreen";
-import CustomHeaderButton from "../../../components/CustomHeaderButton";
+
+import OrdersScreen, {
+  screenOptions as ordersScreenOptions,
+} from "../../../screens/OrdersScreen";
+
 import { ORDERS_SCREEN_NAME } from "../../../constants/navScreens";
+
 import { OrdersStackNavigatorProp } from "./types";
 import defaultScreenOptions from "../../defaultScreenOptions";
 
@@ -22,20 +25,7 @@ const OrdersStackNavigator: React.FC<Props> = ({ navigation }) => {
       <Stack.Screen
         name={ORDERS_SCREEN_NAME}
         component={OrdersScreen}
-        options={{
-          headerTitle: "Your Orders",
-          headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-              <Item
-                title="Menu"
-                iconName="md-menu"
-                onPress={() => {
-                  navigation.toggleDrawer();
-                }}
-              ></Item>
-            </HeaderButtons>
-          ),
-        }}
+        options={ordersScreenOptions}
       />
     </Stack.Navigator>
   );

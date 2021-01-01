@@ -189,7 +189,6 @@ export const ordersReducer = (
           "MMMM Do YYYY, hh:mm"
         ),
       };
-      console.log(action.payload.orderData.amount);
       return {
         ...state,
         orders: state.orders.concat(newOrder),

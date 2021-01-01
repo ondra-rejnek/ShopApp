@@ -1,17 +1,24 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+
+import defaultScreenOptions from "../defaultScreenOptions";
+import ProductsOverviewScreen, {
+  screenOptions as productsOverviewScreenOptions,
+} from "../../screens/ProductsOverviewScreen";
+import ProductDetailScreen, {
+  screenOptions as productDetailScreenOptions,
+} from "../../screens/ProductDetailScreen";
+import CartScreen, {
+  screenOptions as cartScreenOptions,
+} from "../../screens/CartScreen";
+
 import {
   CART_SCREEN_NAME,
   PRODUCT_DETAIL_SCREEN_NAME,
   PRODUCT_OVERVIEW_SCREEN_NAME,
 } from "../../constants/navScreens";
-import ProductsOverviewScreen from "../../screens/ProductsOverviewScreen";
-import ProductDetailScreen from "../../screens/ProductDetailScreen";
+
 import { ProductNavigatorParamList } from "../../types/navTypes";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import CustomHeaderButton from "../../components/CustomHeaderButton";
-import CartScreen from "../../screens/CartScreen";
-import defaultScreenOptions from "../defaultScreenOptions";
 import { ProductsNavigatorProp } from "./types";
 
 const Stack = createStackNavigator<ProductNavigatorParamList>();
@@ -20,7 +27,7 @@ interface Props {
   navigation: ProductsNavigatorProp;
 }
 
-const ProductsNavigator: React.FC<Props> = ({ navigation }) => {
+const ProductsNavigator: React.FC<Props> = () => {
   return (
     <Stack.Navigator
       initialRouteName={PRODUCT_OVERVIEW_SCREEN_NAME}
@@ -29,41 +36,17 @@ const ProductsNavigator: React.FC<Props> = ({ navigation }) => {
       <Stack.Screen
         name={PRODUCT_OVERVIEW_SCREEN_NAME}
         component={ProductsOverviewScreen}
-        options={{
-          headerTitle: "All Products",
-          headerRight: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-              <Item
-                title="Cart"
-                iconName="md-cart"
-                onPress={() => {
-                  navigation.navigate(CART_SCREEN_NAME);
-                }}
-              ></Item>
-            </HeaderButtons>
-          ),
-          headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-              <Item
-                title="Menu"
-                iconName="md-menu"
-                onPress={() => {
-                  navigation.toggleDrawer();
-                }}
-              ></Item>
-            </HeaderButtons>
-          ),
-        }}
+        options={productsOverviewScreenOptions}
       />
       <Stack.Screen
         name={PRODUCT_DETAIL_SCREEN_NAME}
         component={ProductDetailScreen}
-        options={({ route }) => ({ title: route.params.product.title })}
+        options={productDetailScreenOptions}
       />
       <Stack.Screen
         name={CART_SCREEN_NAME}
         component={CartScreen}
-        options={{ title: "Cart" }}
+        options={cartScreenOptions}
       />
     </Stack.Navigator>
   );
