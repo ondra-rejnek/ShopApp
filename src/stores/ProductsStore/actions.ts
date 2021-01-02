@@ -12,7 +12,6 @@ import {
   SET_PRODUCTS,
   UPDATE_PRODUCT,
 } from "./actionTypes";
-import { ActionType } from "./types";
 
 export const addToCart: ActionCreator<Action> = (product: Product) => {
   return { type: ADD_TO_CART, payload: { product: product } };
@@ -107,10 +106,10 @@ export const createProduct = (
       payload: {
         productData: {
           id: resData.name,
-          title: title,
-          description: description,
-          imageUrl: imageUrl,
-          price: price,
+          title,
+          description,
+          imageUrl,
+          price,
         },
       },
     });
@@ -148,9 +147,9 @@ export const updateProduct = (
       payload: {
         pid: id,
         productData: {
-          title: title,
-          description: description,
-          imageUrl: imageUrl,
+          title,
+          description,
+          imageUrl,
         },
       },
     });
@@ -172,13 +171,14 @@ export const fetchProducts = () => {
       const loadedProducts: Product[] = [];
 
       for (const key in resData) {
+        const product = resData[key];
         loadedProducts.push({
           id: key,
           ownerId: "u1",
-          title: resData[key].title,
-          imageUrl: resData[key].imageUrl,
-          price: resData[key].price,
-          description: resData[key].description,
+          title: product.title,
+          imageUrl: product.imageUrl,
+          price: product.price,
+          description: product.description,
         });
       }
 
@@ -204,12 +204,13 @@ export const fetchOrders = () => {
       const loadedOrders = [];
 
       for (const key in resData) {
+        const order = resData[key];
         loadedOrders.push({
           id: key,
-          amount: resData[key].totalAmount,
-          items: resData[key].cartItems,
-          date: resData[key].date,
-          readableDate: moment(resData[key].date).format("MMMM Do YYYY, hh:mm"),
+          amount: order.totalAmount,
+          items: order.cartItems,
+          date: order.date,
+          readableDate: moment(order.date).format("MMMM Do YYYY, hh:mm"),
         });
       }
       dispatch({ type: SET_ORDERS, payload: { orders: loadedOrders } });

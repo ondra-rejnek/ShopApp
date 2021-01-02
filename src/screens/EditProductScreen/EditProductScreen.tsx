@@ -29,14 +29,16 @@ const formReducer = (
   state: FormReducerStateType,
   action: FormReducerAction
 ) => {
+  const { input, isValid, value } = action;
+  const { inputValues, inputValidities, formIsValid } = state;
   if (action.type === FORM_INPUT_UPDATE) {
     const updatedValues = {
-      ...state.inputValues,
-      [action.input]: action.value,
+      ...inputValues,
+      [input]: value,
     };
     const updatedValidities = {
-      ...state.inputValidities,
-      [action.input]: action.isValid,
+      ...inputValidities,
+      [input]: isValid,
     };
     let formIsValid = true;
     for (let key in updatedValidities) {
@@ -86,7 +88,8 @@ const EditProductScreen: React.FC<Props> = ({ route, navigation }) => {
   }, [error]);
 
   const submitHandler: any = useCallback(async () => {
-    if (!formState.formIsValid) {
+    const { inputValues, formIsValid } = formState;
+    if (!formIsValid) {
       Alert.alert("Wrong input!", "Please check the errors in the form!", [
         { text: "Okay" },
       ]);
@@ -99,18 +102,18 @@ const EditProductScreen: React.FC<Props> = ({ route, navigation }) => {
         await dispatch(
           actions.updateProduct(
             prodId,
-            formState.inputValues.title,
-            formState.inputValues.description,
-            formState.inputValues.imageUrl
+            inputValues.title,
+            inputValues.description,
+            inputValues.imageUrl
           )
         );
       } else {
         await dispatch(
           actions.createProduct(
-            formState.inputValues.title,
-            formState.inputValues.description,
-            formState.inputValues.imageUrl,
-            +formState.inputValues.price
+            inputValues.title,
+            inputValues.description,
+            inputValues.imageUrl,
+            +inputValues.price
           )
         );
       }

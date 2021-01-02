@@ -1,5 +1,11 @@
-export const screenOptions = (navData: any) => {
-  const routeParams = navData.route.params ? navData.route.params : {};
+import { EditProductScreenRouteProp } from "./types";
+
+interface Props {
+  route: EditProductScreenRouteProp;
+}
+
+export const screenOptions = ({ route }: Props) => {
+  const routeParams = route.params ? route.params : { product: "" };
   return {
     title: routeParams.product ? "Edit Product" : "Add Product",
   };

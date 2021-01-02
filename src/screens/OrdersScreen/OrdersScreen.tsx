@@ -28,13 +28,16 @@ const OrdersScreen: React.FC = () => {
     <FlatList
       data={orders}
       keyExtractor={(item) => item.id}
-      renderItem={(itemData) => (
-        <OrderItem
-          amount={itemData.item.amount}
-          date={itemData.item.readableDate}
-          items={itemData.item.items}
-        />
-      )}
+      renderItem={(itemData) => {
+        const { item } = itemData;
+        return (
+          <OrderItem
+            amount={item.amount}
+            date={item.readableDate}
+            items={item.items}
+          />
+        );
+      }}
     />
   );
 };

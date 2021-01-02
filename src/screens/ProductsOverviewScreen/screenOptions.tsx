@@ -2,8 +2,9 @@ import React from "react";
 import { CART_SCREEN_NAME } from "../../constants/navScreens";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../../components/CustomHeaderButton";
+import { ProductOverviewScreenProp } from "./types";
 
-export const screenOptions = (navData: any) => {
+export const screenOptions = ({ navigation }) => {
   return {
     headerTitle: "All Products",
     headerRight: () => (
@@ -12,7 +13,7 @@ export const screenOptions = (navData: any) => {
           title="Cart"
           iconName="md-cart"
           onPress={() => {
-            navData.navigation.navigate(CART_SCREEN_NAME);
+            navigation.navigate(CART_SCREEN_NAME);
           }}
         ></Item>
       </HeaderButtons>
@@ -23,7 +24,7 @@ export const screenOptions = (navData: any) => {
           title="Menu"
           iconName="md-menu"
           onPress={() => {
-            navData.navigation.toggleDrawer();
+            navigation.toggleDrawer();
           }}
         ></Item>
       </HeaderButtons>

@@ -21,12 +21,13 @@ const INPUT_CHANGE = "INPUT_CHANGE";
 const INPUT_BLUR = "INPUT_BLUR";
 
 const inputReducer = (state: InputReducerState, action: InputReducerAction) => {
+  const { payload } = action;
   switch (action.type) {
     case INPUT_CHANGE:
       return {
         ...state,
-        value: action.payload.value,
-        isValid: action.payload.isValid,
+        value: payload.value,
+        isValid: payload.isValid,
       };
 
     case INPUT_BLUR:

@@ -1,3 +1,3 @@
-export const screenOptions = (navData: any) => {
+export const screenOptions = () => {
   return { title: "Cart" };
 };

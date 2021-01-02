@@ -1,18 +1,18 @@
-import { CartObject, Order, OrderData, Product } from "../../types/product";
+import { CartObject, Order, Product } from "../../types/product";
 
-interface productData {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  price: number;
-}
+// interface productData {
+//   id: string;
+//   title: string;
+//   description: string;
+//   imageUrl: string;
+//   price: number;
+// }
 
-interface updatingProductData {
-  title: string;
-  description: string;
-  imageUrl: string;
-}
+// interface updatingProductData {
+//   title: string;
+//   description: string;
+//   imageUrl: string;
+// }
 
 export interface ProductsReducerState {
   availableProducts: Product[];

@@ -11,7 +11,7 @@ interface Props {
   children: ReactNode;
 }
 
-const ProductsStore = ({ children }: Props) => {
+const ProductsStore: React.FC<Props> = ({ children }) => {
   return <Provider store={store}>{children}</Provider>;
 };
 

@@ -16,12 +16,13 @@ const CartScreen: React.FC = () => {
   const cartItems = useSelector((state: RootState) => {
     const transformedCartItems: CartArrayItem[] = [];
     for (const key in state.cart.items) {
+      const item = state.cart.items[key];
       transformedCartItems.push({
         productId: key,
-        productTitle: state.cart.items[key].productTitle,
-        productPrice: state.cart.items[key].productPrice,
-        quantity: state.cart.items[key].quantity,
-        sum: state.cart.items[key].sum,
+        productTitle: item.productTitle,
+        productPrice: item.productPrice,
+        quantity: item.quantity,
+        sum: item.sum,
       });
     }
     return transformedCartItems.sort((a, b) =>
@@ -60,17 +61,20 @@ const CartScreen: React.FC = () => {
       <FlatList
         data={cartItems}
         keyExtractor={(item) => item.productId}
-        renderItem={(itemData) => (
-          <CartItem
-            deletable={true}
-            quantity={itemData.item.quantity}
-            title={itemData.item.productTitle}
-            amount={itemData.item.sum}
-            onRemove={() => {
-              dispatch(actions.removeFromCart(itemData.item.productId));
-            }}
-          />
-        )}
+        renderItem={(itemData) => {
+          const item = itemData.item;
+          return (
+            <CartItem
+              deletable={true}
+              quantity={item.quantity}
+              title={item.productTitle}
+              amount={item.sum}
+              onRemove={() => {
+                dispatch(actions.removeFromCart(item.productId));
+              }}
+            />
+          );
+        }}
       />
     </View>
   );

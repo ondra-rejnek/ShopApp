@@ -87,27 +87,30 @@ export const ProductsOverviewScreen: React.FC<Props> = ({ navigation }) => {
       refreshing={isRefreshing}
       onRefresh={loadProducts}
       data={products}
-      renderItem={(itemData) => (
-        <ProductItem
-          image={itemData.item.imageUrl}
-          title={itemData.item.title}
-          price={itemData.item.price}
-          onSelect={() => selectItemHandler(itemData.item)}
-        >
-          <Button
-            color={colors.primary}
-            title="View Details"
-            onPress={() => selectItemHandler(itemData.item)}
-          />
-          <Button
-            color={colors.primary}
-            title="To Cart"
-            onPress={() => {
-              dispatch(actions.addToCart(itemData.item));
-            }}
-          />
-        </ProductItem>
-      )}
+      renderItem={(itemData) => {
+        const { item } = itemData;
+        return (
+          <ProductItem
+            image={item.imageUrl}
+            title={item.title}
+            price={item.price}
+            onSelect={() => selectItemHandler(item)}
+          >
+            <Button
+              color={colors.primary}
+              title="View Details"
+              onPress={() => selectItemHandler(item)}
+            />
+            <Button
+              color={colors.primary}
+              title="To Cart"
+              onPress={() => {
+                dispatch(actions.addToCart(item));
+              }}
+            />
+          </ProductItem>
+        );
+      }}
     />
   );
 };

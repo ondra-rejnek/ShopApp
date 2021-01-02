@@ -27,65 +27,73 @@ export const productsReducer = (
   state = initialProductsState,
   action: ActionType
 ): ProductsReducerState => {
+  const { availableProducts, userProducts } = state;
+  const { payload } = action;
   switch (action.type) {
-    case SET_PRODUCTS:
+    case SET_PRODUCTS: {
       return {
-        availableProducts: action.payload.products,
-        userProducts: action.payload.products.filter(
-          (product: Product) => product.id !== action.payload.pid
+        availableProducts: payload.products,
+        userProducts: payload.products.filter(
+          (product: Product) => product.id !== payload.pid
         ),
       };
+    }
 
-    case CREATE_PRODUCT:
+    case CREATE_PRODUCT: {
+      const { productData } = payload;
       const newProduct: Product = {
-        id: action.payload.productData.id,
+        id: productData.id,
         ownerId: "u1",
-        title: action.payload.productData.title,
-        imageUrl: action.payload.productData.imageUrl,
-        description: action.payload.productData.description,
-        price: action.payload.productData.price,
+        title: productData.title,
+        imageUrl: productData.imageUrl,
+        description: productData.description,
+        price: productData.price,
       };
       return {
         ...state,
-        availableProducts: state.availableProducts.concat(newProduct),
-        userProducts: state.availableProducts.concat(newProduct),
+        availableProducts: availableProducts.concat(newProduct),
+        userProducts: userProducts.concat(newProduct),
       };
+    }
 
-    case UPDATE_PRODUCT:
-      const productIndex = state.userProducts.findIndex(
-        (prod) => prod.id === action.payload.pid
+    case UPDATE_PRODUCT: {
+      const { productData } = payload;
+      const productIndex = userProducts.findIndex(
+        (prod) => prod.id === payload.pid
       );
       const updatedProduct: Product = {
-        id: action.payload.pid,
-        ownerId: state.userProducts[productIndex].ownerId,
-        title: action.payload.productData.title,
-        imageUrl: action.payload.productData.imageUrl,
-        description: action.payload.productData.description,
-        price: state.userProducts[productIndex].price,
+        id: payload.pid,
+        ownerId: userProducts[productIndex].ownerId,
+        title: productData.title,
+        imageUrl: productData.imageUrl,
+        description: productData.description,
+        price: userProducts[productIndex].price,
       };
-      const updatedUserProducts = [...state.userProducts];
+      const updatedUserProducts = [...userProducts];
       updatedUserProducts[productIndex] = updatedProduct;
-      const availableProductsIndex = state.availableProducts.findIndex(
-        (prod) => prod.id === action.payload.pid
+      const availableProductsIndex = availableProducts.findIndex(
+        (prod) => prod.id === payload.pid
       );
-      const updatedAvailableProducts = [...state.availableProducts];
+      const updatedAvailableProducts = [...availableProducts];
       updatedAvailableProducts[availableProductsIndex] = updatedProduct;
       return {
         ...state,
         availableProducts: updatedAvailableProducts,
         userProducts: updatedUserProducts,
       };
+    }
 
-    case DELETE_PRODUCT:
+    case DELETE_PRODUCT: {
       return {
         ...state,
-        userProducts: state.userProducts.filter(
-          (product) => product.id !== action.payload.pid
+        userProducts: userProducts.filter(
+          (product) => product.id !== payload.pid
         ),
-        availableProducts: state.availableProducts.filter(
-          (product) => product.id !== action.payload.pid
+        availableProducts: availableProducts.filter(
+          (product) => product.id !== payload.pid
         ),
       };
+    }
   }
 
   return state;
@@ -95,22 +103,24 @@ export const cartReducer = (
   state = initialCartState,
   action: ActionType
 ): CartReducerState => {
+  const { items, totalAmount } = state;
+  const { payload } = action;
   switch (action.type) {
     case ADD_TO_CART:
-      const addedProduct = action.payload.product;
+      const addedProduct = payload.product;
       const prodPrice = addedProduct.price;
       const prodTitle = addedProduct.title;
       let updatedOrNewCartItem: CartItem;
-      if (state.items[addedProduct.id]) {
+      if (items[addedProduct.id]) {
         updatedOrNewCartItem = {
-          quantity: state.items[addedProduct.id].quantity + 1,
+          quantity: items[addedProduct.id].quantity + 1,
           productPrice: prodPrice,
           productTitle: prodTitle,
-          sum: state.items[addedProduct.id].sum + prodPrice,
+          sum: items[addedProduct.id].sum + prodPrice,
         };
         return {
-          items: { ...state.items, [addedProduct.id]: updatedOrNewCartItem },
-          totalAmount: state.totalAmount + prodPrice,
+          items: { ...items, [addedProduct.id]: updatedOrNewCartItem },
+          totalAmount: totalAmount + prodPrice,
         };
       } else {
         updatedOrNewCartItem = {
@@ -120,13 +130,13 @@ export const cartReducer = (
           sum: prodPrice,
         };
         return {
-          items: { ...state.items, [addedProduct.id]: updatedOrNewCartItem },
-          totalAmount: state.totalAmount + prodPrice,
+          items: { ...items, [addedProduct.id]: updatedOrNewCartItem },
+          totalAmount: totalAmount + prodPrice,
         };
       }
 
     case REMOVE_FROM_CART:
-      const selectedCartItem = state.items[action.payload.pid];
+      const selectedCartItem = items[action.payload.pid];
       const currentQty = selectedCartItem.quantity;
       let updatedCartItems: CartObject;
       if (currentQty > 1) {
@@ -137,33 +147,33 @@ export const cartReducer = (
           sum: selectedCartItem.sum - selectedCartItem.productPrice,
         };
         updatedCartItems = {
-          ...state.items,
-          [action.payload.pid]: updatedCartItem,
+          ...items,
+          [payload.pid]: updatedCartItem,
         };
       } else {
-        updatedCartItems = { ...state.items };
-        delete updatedCartItems[action.payload.pid];
+        updatedCartItems = { ...items };
+        delete updatedCartItems[payload.pid];
       }
       return {
         ...state,
         items: updatedCartItems,
-        totalAmount: state.totalAmount - selectedCartItem.productPrice,
+        totalAmount: totalAmount - selectedCartItem.productPrice,
       };
 
     case ADD_ORDER:
       return initialCartState;
 
     case DELETE_PRODUCT:
-      if (!state.items[action.payload.pid]) {
+      if (!items[payload.pid]) {
         return state;
       }
-      const updatedItems = { ...state.items };
-      const itemTotal = state.items[action.payload.pid].sum;
-      delete updatedItems[action.payload.pid];
+      const updatedItems = { ...items };
+      const itemTotal = items[payload.pid].sum;
+      delete updatedItems[payload.pid];
       return {
         ...state,
         items: updatedItems,
-        totalAmount: state.totalAmount - itemTotal,
+        totalAmount: totalAmount - itemTotal,
       };
   }
   return state;
@@ -173,25 +183,26 @@ export const ordersReducer = (
   state = initialOrdersState,
   action: ActionType
 ): OrderReducerState => {
+  const { orders } = state;
+  const { payload } = action;
   switch (action.type) {
     case SET_ORDERS:
       return {
-        orders: action.payload.orders,
+        orders: payload.orders,
       };
 
     case ADD_ORDER:
+      const { orderData } = payload;
       const newOrder: Order = {
-        id: action.payload.orderData.id,
-        items: action.payload.orderData.items,
-        amount: action.payload.orderData.amount,
-        date: action.payload.orderData.date,
-        readableDate: moment(action.payload.orderData.date).format(
-          "MMMM Do YYYY, hh:mm"
-        ),
+        id: orderData.id,
+        items: orderData.items,
+        amount: orderData.amount,
+        date: orderData.date,
+        readableDate: moment(orderData.date).format("MMMM Do YYYY, hh:mm"),
       };
       return {
         ...state,
-        orders: state.orders.concat(newOrder),
+        orders: orders.concat(newOrder),
       };
   }
 

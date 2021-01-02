@@ -2,7 +2,7 @@ import React from "react";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../../components/CustomHeaderButton";
 
-export const screenOptions = (navData: any) => {
+export const screenOptions = (navData) => {
   return {
     headerTitle: "Your Orders",
     headerLeft: () => (

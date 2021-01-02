@@ -46,29 +46,32 @@ const UserProductsScreen: React.FC<Props> = ({ navigation }) => {
     <FlatList
       data={userProducts}
       keyExtractor={(item) => item.id}
-      renderItem={(itemData) => (
-        <ProductItem
-          image={itemData.item.imageUrl}
-          title={itemData.item.title}
-          price={itemData.item.price}
-          onSelect={() => {
-            editProductHandler(itemData.item.id);
-          }}
-        >
-          <Button
-            color={colors.primary}
-            title="Edit"
-            onPress={() => {
-              editProductHandler(itemData.item.id);
+      renderItem={(itemData) => {
+        const { item } = itemData;
+        return (
+          <ProductItem
+            image={item.imageUrl}
+            title={item.title}
+            price={item.price}
+            onSelect={() => {
+              editProductHandler(item.id);
             }}
-          />
-          <Button
-            color={colors.primary}
-            title="Delete"
-            onPress={() => deleteHandler(itemData.item.id)}
-          />
-        </ProductItem>
-      )}
+          >
+            <Button
+              color={colors.primary}
+              title="Edit"
+              onPress={() => {
+                editProductHandler(item.id);
+              }}
+            />
+            <Button
+              color={colors.primary}
+              title="Delete"
+              onPress={() => deleteHandler(item.id)}
+            />
+          </ProductItem>
+        );
+      }}
     />
   );
 };
