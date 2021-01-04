@@ -87,7 +87,7 @@ const EditProductScreen: React.FC<Props> = ({ route, navigation }) => {
     }
   }, [error]);
 
-  const submitHandler: any = useCallback(async () => {
+  const submitHandler = useCallback(async () => {
     const { inputValues, formIsValid } = formState;
     if (!formIsValid) {
       Alert.alert("Wrong input!", "Please check the errors in the form!", [

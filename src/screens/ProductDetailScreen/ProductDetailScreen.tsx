@@ -1,14 +1,10 @@
 import React from "react";
 import { View, Text, ScrollView, Image, Button } from "react-native";
 import * as cartActions from "../../stores/ProductsStore/actions";
-import { ProductDetailScreenProp } from "./types";
+import { Props } from "./types";
 import styles from "./styles";
 import colors from "../../assets/colors";
 import { useDispatch } from "react-redux";
-
-interface Props {
-  route: ProductDetailScreenProp;
-}
 
 const ProductDetailScreen: React.FC<Props> = ({ route }) => {
   const { product } = route.params;

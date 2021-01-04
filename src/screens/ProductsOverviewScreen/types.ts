@@ -9,3 +9,7 @@ export type ProductOverviewScreenProp = StackNavigationProp<
 >;
 
 export type selectItemHandlerType = (item: Product) => void;
+
+export interface Props {
+  navigation: ProductOverviewScreenProp;
+}

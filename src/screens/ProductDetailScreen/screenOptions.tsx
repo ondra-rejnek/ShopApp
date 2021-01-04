@@ -1,7 +1,10 @@
-export const screenOptions = (navData: any) => {
+import { StackNavigationOptions } from "@react-navigation/stack";
+import { Props } from "./types";
+
+type screenOptionsType = ({ route }: Props) => StackNavigationOptions;
+
+export const screenOptions: screenOptionsType = ({ route }) => {
   return {
-    title: navData.route.params.product.title,
+    title: route.params.product.title,
   };
 };
-
-// ({ route }) => ({ title: route.params.product.title })

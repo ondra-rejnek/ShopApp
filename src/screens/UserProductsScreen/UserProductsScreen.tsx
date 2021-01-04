@@ -6,15 +6,7 @@ import ProductItem from "../../components/ProductItem";
 import { RootState } from "../../types/rootState";
 import * as actions from "../../stores/ProductsStore/actions";
 import { EDIT_PRODUCT_SCREEN_NAME } from "../../constants/navScreens";
-import {
-  DeleteHandlerType,
-  EditProductHandlerType,
-  UserProductsScreenProp,
-} from "./types";
-
-interface Props {
-  navigation: UserProductsScreenProp;
-}
+import { DeleteHandlerType, EditProductHandlerType, Props } from "./types";
 
 const UserProductsScreen: React.FC<Props> = ({ navigation }) => {
   const userProducts = useSelector(

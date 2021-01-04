@@ -2,9 +2,15 @@ import React from "react";
 import { CART_SCREEN_NAME } from "../../constants/navScreens";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../../components/CustomHeaderButton";
-import { ProductOverviewScreenProp } from "./types";
+import { Props as ProductsNavProps } from "./types";
+import { StackNavigationOptions } from "@react-navigation/stack";
+import { Props as OrdersNavProps } from "../OrdersScreen/types";
 
-export const screenOptions = ({ navigation }) => {
+type screenOptionsType = ({
+  navigation,
+}: ProductsNavProps & OrdersNavProps) => StackNavigationOptions;
+
+export const screenOptions: screenOptionsType = ({ navigation }) => {
   return {
     headerTitle: "All Products",
     headerRight: () => (

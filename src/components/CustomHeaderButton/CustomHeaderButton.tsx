@@ -1,15 +1,15 @@
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { HeaderButton } from "react-navigation-header-buttons";
+import {
+  HeaderButton,
+  HeaderButtonProps,
+} from "react-navigation-header-buttons";
 
-interface Props {
-  props: any;
-}
+interface Props extends HeaderButtonProps {}
 
 const CustomHeaderButton: React.FC<Props> = (props) => {
   return (
     <HeaderButton
-      title="Cart"
       {...props}
       IconComponent={Ionicons}
       iconSize={23}

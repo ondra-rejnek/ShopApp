@@ -5,14 +5,10 @@ import ProductItem from "../../components/ProductItem";
 import { PRODUCT_DETAIL_SCREEN_NAME } from "../../constants/navScreens";
 import { RootState } from "../../types/rootState";
 import * as actions from "../../stores/ProductsStore/actions";
-import { ProductOverviewScreenProp, selectItemHandlerType } from "./types";
+import { Props, selectItemHandlerType } from "./types";
 import colors from "../../assets/colors";
 import Loading from "../../components/Loading";
 import styles from "./styles";
-
-interface Props {
-  navigation: ProductOverviewScreenProp;
-}
 
 export const ProductsOverviewScreen: React.FC<Props> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);

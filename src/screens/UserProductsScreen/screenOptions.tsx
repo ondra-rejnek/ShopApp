@@ -2,8 +2,15 @@ import { EDIT_PRODUCT_SCREEN_NAME } from "../../constants/navScreens";
 import React from "react";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../../components/CustomHeaderButton";
+import { StackNavigationOptions } from "@react-navigation/stack";
+import { Props as ProductsNavProps } from "./types";
+import { Props as OrdersNavProps } from "../OrdersScreen/types";
 
-export const screenOptions = (navData: any) => {
+type screenOptionsType = ({
+  navigation,
+}: ProductsNavProps & OrdersNavProps) => StackNavigationOptions;
+
+export const screenOptions: screenOptionsType = ({ navigation }) => {
   return {
     headerTitle: "Your Products",
     headerLeft: () => (
@@ -12,7 +19,7 @@ export const screenOptions = (navData: any) => {
           title="Menu"
           iconName="md-menu"
           onPress={() => {
-            navData.navigation.toggleDrawer();
+            navigation.toggleDrawer();
           }}
         ></Item>
       </HeaderButtons>
@@ -23,7 +30,7 @@ export const screenOptions = (navData: any) => {
           title="Create"
           iconName="md-create"
           onPress={() => {
-            navData.navigation.navigate(EDIT_PRODUCT_SCREEN_NAME, {
+            navigation.navigate(EDIT_PRODUCT_SCREEN_NAME, {
               product: "",
             });
           }}

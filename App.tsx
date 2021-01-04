@@ -22,7 +22,7 @@ export default function App() {
         onFinish={() => {
           setFontLoaded(true);
         }}
-        onError={(err) => {
+        onError={(err: Error) => {
           console.log(err);
         }}
       />

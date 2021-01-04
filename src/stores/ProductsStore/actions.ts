@@ -12,6 +12,7 @@ import {
   SET_PRODUCTS,
   UPDATE_PRODUCT,
 } from "./actionTypes";
+import { ActionThunk } from "./types";
 
 export const addToCart: ActionCreator<Action> = (product: Product) => {
   return { type: ADD_TO_CART, payload: { product: product } };
@@ -21,8 +22,11 @@ export const removeFromCart: ActionCreator<Action> = (productId: string) => {
   return { type: REMOVE_FROM_CART, payload: { pid: productId } };
 };
 
-export const addOrder = (cartItems: CartArrayItem[], totalAmount: number) => {
-  return async (dispatch: any) => {
+export const addOrder = (
+  cartItems: CartArrayItem[],
+  totalAmount: number
+): ActionThunk => {
+  return async (dispatch) => {
     const date = new Date();
     const response = await fetch(
       "https://shopapp-3c87c-default-rtdb.europe-west1.firebasedatabase.app/orders/u1.json",
@@ -59,8 +63,8 @@ export const addOrder = (cartItems: CartArrayItem[], totalAmount: number) => {
   };
 };
 
-export const deleteProduct = (productId: string) => {
-  return async (dispatch: any) => {
+export const deleteProduct = (productId: string): ActionThunk => {
+  return async (dispatch) => {
     const response = await fetch(
       `https://shopapp-3c87c-default-rtdb.europe-west1.firebasedatabase.app/products/${productId}.json`,
       {
@@ -81,8 +85,8 @@ export const createProduct = (
   description: string,
   imageUrl: string,
   price: number
-) => {
-  return async (dispatch: any) => {
+): ActionThunk => {
+  return async (dispatch) => {
     const response = await fetch(
       "https://shopapp-3c87c-default-rtdb.europe-west1.firebasedatabase.app/products.json",
       {
@@ -121,8 +125,8 @@ export const updateProduct = (
   title: string,
   description: string,
   imageUrl: string
-) => {
-  return async (dispatch: any) => {
+): ActionThunk => {
+  return async (dispatch) => {
     const response = await fetch(
       `https://shopapp-3c87c-default-rtdb.europe-west1.firebasedatabase.app/products/${id}.json`,
       {
@@ -156,8 +160,8 @@ export const updateProduct = (
   };
 };
 
-export const fetchProducts = () => {
-  return async (dispatch: any) => {
+export const fetchProducts = (): ActionThunk => {
+  return async (dispatch) => {
     try {
       const response = await fetch(
         "https://shopapp-3c87c-default-rtdb.europe-west1.firebasedatabase.app/products.json"
@@ -189,8 +193,8 @@ export const fetchProducts = () => {
   };
 };
 
-export const fetchOrders = () => {
-  return async (dispatch: any) => {
+export const fetchOrders = (): ActionThunk => {
+  return async (dispatch) => {
     try {
       const response = await fetch(
         "https://shopapp-3c87c-default-rtdb.europe-west1.firebasedatabase.app/orders/u1.json"

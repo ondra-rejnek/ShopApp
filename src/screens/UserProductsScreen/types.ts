@@ -10,3 +10,7 @@ export type UserProductsScreenProp = StackNavigationProp<
 export type EditProductHandlerType = (id: string) => void;
 
 export type DeleteHandlerType = (id: string) => void;
+
+export interface Props {
+  navigation: UserProductsScreenProp;
+}

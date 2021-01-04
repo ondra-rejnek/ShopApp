@@ -1,3 +1,6 @@
+import { Action } from "redux";
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "types/rootState";
 import { CartObject, Order, Product } from "../../types/product";
 
 // interface productData {
@@ -32,3 +35,10 @@ export interface ActionType {
   type: string;
   payload?: any;
 }
+
+export type ActionThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
